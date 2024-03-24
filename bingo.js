@@ -11,7 +11,7 @@ const boards = sections.slice(1).map(section =>
 
 const bingo = (numbers, board) => {
     const rows = board.map(row => row.split(' ').map(Number));
-    const columns = Array.from({ length: 5 }, () => []);
+    const columns = [[], [], [], [], []];
 
     rows.forEach(row => {
         row.forEach((num, index) => {
@@ -39,7 +39,7 @@ console.log(bingo(numbers, boards[0]));
 const guaranteedWinBoard = (numbers, boards) => {
     const winningIndex = boards.findIndex(board => bingo(numbers, board));
 
-    return winningIndex !== -1 
+    return winningIndex > -1 
            ? `To continue my journey past squid I could pick a board at index ${winningIndex + 1}.`
            : 'No luck, squid happened to be stronger this time.';
 };
