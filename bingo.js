@@ -1,5 +1,4 @@
-const { log } = require('console');
-const fs = require('fs');
+import fs from 'fs';
 
 const data = fs.readFileSync('data.txt', { encoding: 'utf8' });
 const sections = data.split('---\n').map(section => section.trim());
@@ -10,48 +9,41 @@ const boards = sections.slice(1).map(section =>
 
 // I against squid PART 1
 
-function bingo(numbers, board) {
-    const rows = board.map(row => 
-        row.split(' ').map(Number)
-    ); 
-    const columns = [[], [], [], [], []];  
+const bingo = (numbers, board) => {
+    const rows = board.map(row => row.split(' ').map(Number));
+    const columns = Array.from({ length: 5 }, () => []);
 
-    // fill columns
     rows.forEach(row => {
         row.forEach((num, index) => {
             columns[index].push(num);
         });
     });
 
-    // iterate arrays and columns to look for bingo
     for (let i = 0; i < 5; i++) {
-        // every method
         if (rows[i].every(num => numbers.includes(num))) {
-            return true; // rows bingo, squid lose
+            return true; // Row bingo
         }
 
         if (columns[i].every(num => numbers.includes(num))) {
-            return true; // columns bingo, I win
+            return true; // Column bingo
         }
     }
 
-    return false; // squid wins
+    return false;
 };
 
 console.log(bingo(numbers, boards[0]));
 
 // I against squid PART 2
 
-function guaranteedWinBoard(numbers, boards) {
-    for (let i = 0; i < boards.length; i++) {
-        if (bingo(numbers, boards[i])) {
-            return ('To continue my journey pass squid I could pick a board at index ' + i);
-        };
-    };
+const guaranteedWinBoard = (numbers, boards) => {
+    const winningIndex = boards.findIndex(board => bingo(numbers, board));
 
-    return ('No luck, squid happened to be stronger this time.');
-}
+    return winningIndex !== -1 
+           ? `To continue my journey past squid I could pick a board at index ${winningIndex + 1}.`
+           : 'No luck, squid happened to be stronger this time.';
+};
 
 console.log(guaranteedWinBoard(numbers, boards))
 
-module.exports = { bingo, guaranteedWinBoard }
+export { bingo, guaranteedWinBoard };
