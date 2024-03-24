@@ -1,4 +1,5 @@
-import fs from 'fs';
+const { log } = require('console');
+const fs = require('fs');
 
 const data = fs.readFileSync('data.txt', { encoding: 'utf8' });
 const sections = data.split('---\n').map(section => section.trim());
@@ -26,15 +27,15 @@ function bingo(numbers, board) {
     for (let i = 0; i < 5; i++) {
         // every method
         if (rows[i].every(num => numbers.includes(num))) {
-            return ('Bingo! This card beats squid!'); // rows bingo, squid lose
+            return true; // rows bingo, squid lose
         }
 
         if (columns[i].every(num => numbers.includes(num))) {
-            return ('Bingo! Columns guranteed you moving pass squid'); // columns bingo, I win
+            return true; // columns bingo, I win
         }
     }
 
-    return ('No bingo. Squid was too strong'); // squid wins
+    return false; // squid wins
 };
 
 console.log(bingo(numbers, boards[0]));
@@ -44,7 +45,7 @@ console.log(bingo(numbers, boards[0]));
 function guaranteedWinBoard(numbers, boards) {
     for (let i = 0; i < boards.length; i++) {
         if (bingo(numbers, boards[i])) {
-            return ('To continue my journey passed squid I could pick a board at index ' + (i + 1));
+            return ('To continue my journey pass squid I could pick a board at index ' + i);
         };
     };
 
@@ -52,3 +53,5 @@ function guaranteedWinBoard(numbers, boards) {
 }
 
 console.log(guaranteedWinBoard(numbers, boards))
+
+module.exports = { bingo, guaranteedWinBoard }
