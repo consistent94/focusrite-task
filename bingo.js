@@ -2,7 +2,7 @@ import fs from 'fs';
 
 const data = fs.readFileSync('data.txt', { encoding: 'utf8' });
 const sections = data.split('---\n').map(section => section.trim());
-const numbers = sections[0].split(',').map(Number);
+const winningNumbers = sections[0].split(',').map(Number);
 const boards = sections.slice(1).map(section => 
         section.split('\n'))
 
@@ -51,6 +51,6 @@ const guaranteedWinBoard = (numbers, boards) => {
       return 'No luck, the squid was stronger this time.';
     };
 };
-console.log(guaranteedWinBoard(numbers, boards))
+console.log(guaranteedWinBoard(winningNumbers, boards))
 
 export { checkBingo, guaranteedWinBoard };
