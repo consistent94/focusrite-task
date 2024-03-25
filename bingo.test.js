@@ -1,4 +1,4 @@
-import { bingo, guaranteedWinBoard } from './bingo.js';
+import { checkBingo, guaranteedWinBoard } from './bingo.js';
 
 describe('Bingo Game Tests', () => {
     describe('bingo function', () => {
@@ -11,7 +11,7 @@ describe('Bingo Game Tests', () => {
                 '16 17 18 19 20',
                 '21 22 23 24 25'
             ];
-            expect(bingo(numbers, board)).toBe(true);
+            expect(checkBingo(numbers, board)).toBe(true);
         });
 
         test('should identify a winning column', () => {
@@ -23,7 +23,7 @@ describe('Bingo Game Tests', () => {
                 '16 17 18 19 20',
                 '21 22 23 24 25'
             ];
-            expect(bingo(numbers, board)).toBe(true);
+            expect(checkBingo(numbers, board)).toBe(true);
         });
 
         test('should return no bingo if none found', () => {
@@ -35,7 +35,7 @@ describe('Bingo Game Tests', () => {
                 '16 17 18 19 20',
                 '21 22 23 24 25'
             ];
-            expect(bingo(numbers, board)).toBe(false);
+            expect(checkBingo(numbers, board)).toBe(false);
         });
     });
 
@@ -79,7 +79,7 @@ describe('Bingo Game Tests', () => {
                     '51 52 53 54 55'
                 ]
             ];
-            expect(guaranteedWinBoard(numbers, boards)).toBe('No luck, squid happened to be stronger this time.');
+            expect(guaranteedWinBoard(numbers, boards)).toBe('No luck, the squid was stronger this time.');
         });
     });
 });

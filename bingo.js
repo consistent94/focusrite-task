@@ -4,12 +4,11 @@ const data = fs.readFileSync('data.txt', { encoding: 'utf8' });
 const sections = data.split('---\n').map(section => section.trim());
 const numbers = sections[0].split(',').map(Number);
 const boards = sections.slice(1).map(section => 
-    section.split('\n')
-);
+        section.split('\n'))
 
 // I against squid PART 1
 
-const bingo = (numbers, board) => {
+const checkBingo = (numbers, board) => {
     const rows = board.map(row => row.split(' ').map(Number));
     const columns = [[], [], [], [], []];
 
@@ -19,31 +18,39 @@ const bingo = (numbers, board) => {
         });
     });
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < rows.length; i++) {
         if (rows[i].every(num => numbers.includes(num))) {
             return true; // Row bingo
-        }
+        };
+    };
 
+    for (let i = 0; i < columns.length; i++) {    
         if (columns[i].every(num => numbers.includes(num))) {
             return true; // Column bingo
-        }
-    }
+        };
+    };
 
     return false;
 };
 
-console.log(bingo(numbers, boards[0]));
 
 // I against squid PART 2
 
 const guaranteedWinBoard = (numbers, boards) => {
-    const winningIndex = boards.findIndex(board => bingo(numbers, board));
+    let winningBoards = [];
 
-    return winningIndex > -1 
-           ? `To continue my journey past squid I could pick a board at index ${winningIndex + 1}.`
-           : 'No luck, squid happened to be stronger this time.';
+    boards.forEach((board, index) => {
+      if (checkBingo(numbers, board)) {
+        winningBoards.push(index + 1);
+      }
+    });
+  
+    if (winningBoards.length > 0) {
+      return `To continue my journey past the squid, I could pick boards at indices: ${winningBoards.join(", ")}.`;
+    } else {
+      return 'No luck, the squid was stronger this time.';
+    };
 };
-
 console.log(guaranteedWinBoard(numbers, boards))
 
-export { bingo, guaranteedWinBoard };
+export { checkBingo, guaranteedWinBoard };
