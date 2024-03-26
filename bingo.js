@@ -6,16 +6,20 @@ const winningNumbers = sections[0].split(',').map(Number);
 const boards = sections.slice(1).map(section => 
         section.split('\n'))
 
-// I against squid PART 1
+// PART 1
 
 const checkBingo = (numbers, board) => {
     const rows = board.map(row => row.split(' ').map(Number));
-    const columns = [[], [], [], [], []];
+    const columns = [];
+
+    rows.forEach(() => {
+      columns.push([])
+    });
 
     rows.forEach(row => {
-        row.forEach((num, index) => {
-            columns[index].push(num);
-        });
+      row.forEach((num, index) => {
+        columns[index].push(num)
+      })
     });
 
     for (let i = 0; i < rows.length; i++) {
@@ -34,7 +38,7 @@ const checkBingo = (numbers, board) => {
 };
 
 
-// I against squid PART 2
+// PART 2
 
 const guaranteedWinBoard = (numbers, boards) => {
     let winningBoards = [];
